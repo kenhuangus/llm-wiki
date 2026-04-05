@@ -22,10 +22,23 @@ This document records the exact state of the Agentic Local-First LLM Wiki projec
   - LLM prompt generation needed to map extracted entity targets into the defined templates securely. 
 - [x] **Deep Semantics in Queries**: Convert `query.py` from string-comparison to a localized vector database/BM25 (using `rank-bm25` or `chromadb`) resolving semantic hits.
 - [x] **Monitor APIs implementation (`*_monitor.py`)**: 
-  - `arxiv_monitor.py`: Call real `cs.AI`, `cs.CR` feed APIs and push newly discovered papers down the `ingest.py` boundary.
-  - `cve_monitor.py`: Map raw NVD endpoints to pull down CVSS 7.0+ entries safely tracking into `security/cve/`.
-  - `github_monitor.py`: Consume git webhooks or release trackers.
-- [x] **[CONFLICT] Resolution & Deep Lint**: Build the "Weekly Deep Lint" pipeline (`lint.py`) designed to prompt LLMs for factual contradiction sweeps mapping claims across `/comparisons/`. 
+  - `arxiv_monitor.py`: Configurable categories, full metadata (authors, abstract, arXiv ID).
+  - `cve_monitor.py`: Live CVE feed with configurable URL and result count.
+  - `github_monitor.py`: Multi-repo, full release notes, optional auth.
+  - `rss_monitor.py`: NEW — polls configurable blog/news feeds.
+- [x] **[CONFLICT] Resolution & Deep Lint**: LLM-assisted contradiction scan via `lint.py --deep`.
+- [x] **`ingest.py` real implementation**: Actual file copy + URL download (no more stub writes).
+- [x] **Professional Web UI Dashboard**: 
+  - **Sleek React/Vite Interface**: Modern dashboard using Lucide icons, glassmorphism, and Framer Motion micro-animations.
+  - **Interactive Semantic Search**: Full-text semantic search with relevance scoring, mapping results back to the local wiki corpus.
+  - **Batch Ingest Controls**: Single-click batch URL ingestion via high-performance FastAPI/Uvicorn backend.
+  - **Real-time Status Monitoring**: Active monitoring of backend API and search engine availability.
+- [ ] **AI Weekly Newsletter Agent**: 
+  - NEW — autonomous agent that queries all `wiki/` items modified in the last 7 days.
+  - Generates a high-quality Markdown newsletter in `wiki/synthesis/newsletters/`.
+  - Integrates NVD, GitHub, and arXiv findings into a "Weekly Pulse" report.
+
+> 📋 **Sub-task detail:** See [task2.md](task2.md) for the full external knowledge source integration checklist, API keys needed, and cron scheduling plan.
 
 ## 🟣 Phase 3: Future Enhancements (Roadmap)
 - [ ] **Model Context Protocol (MCP)**: Wrap the repository querying operations dynamically exposing the wiki context internally to agents as a registered tool server.

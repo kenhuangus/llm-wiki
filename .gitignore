@@ -1,3 +1,8 @@
 /logs/*.log
 !/wiki/log.md
 .env
+tutorial.md
+raw/
+ui/node_modules/
+.venv/
+__pycache__/

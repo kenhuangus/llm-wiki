@@ -15,15 +15,23 @@ WIKI_DIR = os.path.join(WIKI_ROOT, 'wiki')
 RAW_DIR = os.path.join(WIKI_ROOT, 'raw')
 
 # ── LLM config (all from .env) ──────────────────────────────────────────────
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "http://localhost:1234/api/v1/chat")
-LLM_MODEL    = os.environ.get("LLM_MODEL",    "gemma-4-e2b-it")
-LLM_API_KEY  = os.environ.get("LLM_API_KEY",  "lm-studio")
+LLM_MAIN_URL    = os.environ.get("LLM_MAIN_URL",   "http://ken-mac.local:1234/v1/chat/completions")
+LLM_MAIN_MODEL  = os.environ.get("LLM_MAIN_MODEL", "google/gemma-4-26b-a4b:3")
+LLM_MAIN_KEY    = os.environ.get("LLM_MAIN_API_KEY", "lm-studio")
+
+LLM_BACK_URL    = os.environ.get("LLM_BACKUP_URL",  "http://localhost:1234/v1/chat/completions")
+LLM_BACK_MODEL  = os.environ.get("LLM_BACKUP_MODEL", "gemma-4-e2b-it")
+LLM_BACK_KEY    = os.environ.get("LLM_BACKUP_API_KEY", "lm-studio")
 
 # ── Monitor config ────────────────────────────────────────────────────────────
 ARXIV_MAX_RESULTS = int(os.environ.get("ARXIV_MAX_RESULTS", "3"))
+ARXIV_CATEGORIES  = os.environ.get("ARXIV_CATEGORIES", "cs.AI,cs.CR,cs.RO,cs.LG").split(",")
 GITHUB_TOKEN      = os.environ.get("GITHUB_TOKEN", "")
-CVE_FEED_URL      = os.environ.get("CVE_FEED_URL", "https://cve.circl.lu/api/last")
-CVE_MAX_RESULTS   = int(os.environ.get("CVE_MAX_RESULTS", "3"))
+GITHUB_REPOS      = [r.strip() for r in os.environ.get("GITHUB_REPOS", "langchain-ai/langchain,openai/openai-python,anthropics/anthropic-sdk-python").split(",") if r.strip()]
+CVE_FEED_URL      = os.environ.get("CVE_FEED_URL", "https://services.nvd.nist.gov/rest/json/cves/2.0")
+CVE_MAX_RESULTS   = int(os.environ.get("CVE_MAX_RESULTS", "5"))
+NVD_API_KEY       = os.environ.get("NVD_API_KEY", "")
+RSS_FEEDS         = [r.strip() for r in os.environ.get("RSS_FEEDS", "").split(",") if r.strip()]
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -62,24 +70,46 @@ def serialize_frontmatter(metadata, body):
 
 def call_local_model(system_prompt, input_text):
     """
-    Calls the configured local LLM endpoint.
-    All connection details come from .env — nothing is hardcoded here.
+    Attempts Ken-Mac (Main) then Localhost (Backup) for synthesis.
+    Correctly maps to OpenAI-compatible Chat Completions payload.
     """
-    payload = {
-        'model': LLM_MODEL,
-        'system_prompt': system_prompt,
-        'input': input_text,
-    }
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {LLM_API_KEY}',
-    }
-    try:
-        response = requests.post(LLM_BASE_URL, headers=headers, json=payload, timeout=60)
-        data = response.json()
-        if 'output' in data and len(data['output']) > 0:
-            return data['output'][0].get('content', '')
-        return ''
-    except Exception as e:
-        print(f'LLM call failed: {e}')
-        return ''
+    targets = [
+        (LLM_MAIN_URL, LLM_MAIN_MODEL, LLM_MAIN_KEY, "Ken-Mac (Main)"),
+        (LLM_BACK_URL, LLM_BACK_MODEL, LLM_BACK_KEY, "Local-PC (Backup)")
+    ]
+
+    for url, model, key, label in targets:
+        payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": input_text}
+            ],
+            "temperature": 0.7
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {key}"
+        }
+        
+        try:
+            print(f"PIPELINE: Attempting synthesis via {label}...")
+            response = requests.post(url, headers=headers, json=payload, timeout=300)
+            data = response.json()
+            
+            # OpenAI / LM-Studio response parsing
+            if "choices" in data and len(data["choices"]) > 0:
+                content = data["choices"][0]["message"].get("content", "")
+                if content: 
+                   print(f"PIPELINE: {label} SUCCESS.")
+                   return content
+            
+            # fallback case if response is empty
+            print(f"[WARN] {label} returned empty choices. Trying next node.")
+            
+        except Exception as e:
+            print(f"[FAIL] {label} unreachable: {e}")
+            continue # Try next target
+
+    print("ERROR: All LLM nodes failed.")
+    return ""

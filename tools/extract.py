@@ -24,11 +24,9 @@ def extract_knowledge(filepath):
             
         extracted = json.loads(content_out)
     except Exception as e:
-        print(f"Warning: JSON parsing failed ({e}). Raw Output: {content_out[:100]}...")
-        extracted = {
-            "entities": [{"name": "FallbackEntity", "type": "model"}],
-            "claims": [{"text": "Failed parsing. See logs.", "confidence": 0.0}]
-        }
+        write_log('extract_error', 'llm parsing failed', f"{filename}: {e}")
+        print(f"Error: JSON parsing failed ({e}). Raw Output: {content_out[:100]}...")
+        sys.exit(1)
         
     extracted["source_id"] = meta.get("id", "unknown")
     

@@ -23,7 +23,7 @@ def query_wiki(keyword):
             
     if not corpus_texts:
         print("No knowledge pages exist to search.")
-        return
+        return []
 
     bm25 = BM25Okapi(corpus_texts)
     tokenized_query = keyword.lower().split()
@@ -33,13 +33,17 @@ def query_wiki(keyword):
     results = [(file_map[i], score) for i, score in enumerate(scores) if score > 0]
     results.sort(key=lambda x: x[1], reverse=True)
     
+    top_matches = []
     if results:
         print("Found top matches:")
         for r in results[:5]:  # show top 5
             rel_path = os.path.relpath(r[0], WIKI_DIR)
             print(f"- {rel_path} (Score: {r[1]:.2f})")
+            top_matches.append({"path": rel_path, "score": float(r[1])})
     else:
         print("No semantic matches found.")
+    
+    return top_matches
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:

@@ -9,12 +9,13 @@ def deep_lint():
     
     for page in pages:
         filename = os.path.basename(page)
-        if filename in ('index.md', 'log.md'):
+        if filename in ('index.md', 'log.md', 'curated-sources.md'):
             continue
         with open(page, 'r', encoding='utf-8') as f:
             content = f.read()
         _, body = parse_frontmatter(content)
-        claims_to_check.append({"file": filename, "body": body[:500]})
+        # Pass the full body instead of just the first 500 characters
+        claims_to_check.append({"file": filename, "body": body.strip()})
 
     if len(claims_to_check) < 2:
         print("Not enough pages for semantic comparison.")

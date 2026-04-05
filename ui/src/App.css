@@ -1,0 +1,8 @@
+/* App.css remains empty or minimal for Wikipedia look */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wiki-results-list {
+  max-width: 800px;
+}
