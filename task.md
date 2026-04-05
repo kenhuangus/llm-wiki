@@ -5,16 +5,17 @@ This document records the exact state of the Agentic Local-First LLM Wiki projec
 ## 🟢 Phase 1: Completed Initialization (What has been done)
 - [x] **Generate Directory Skeleton**: Bootstrapped `/raw`, `/wiki` and `/tools` mirroring the correct sub-domain structures (`auto_ingest`, `concepts`, `entities` etc.).
 - [x] **System Behavioral Schema (`AGENTS.md`)**: Replicated rule configurations detailing confidence rubrics, cross-linking rules, trust tiers, and the logging contract.
-- [x] **Git Repository Bootstrap**: Created `.gitignore` strictly omitting noisy files (`/logs/*.log`) while enforcing inclusion of the immutable graph ledger (`wiki/log.md`).
+- [x] **Git Repository Bootstrap**: Created `.gitignore` (excludes `/logs/*.log` and `.env`) and made initial commit tagging full Phase 1+2 milestone.
+- [x] **`.env` Configuration**: All secrets and endpoints (`LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY`, `GITHUB_TOKEN`, CVE/arXiv settings) moved to `.env` loaded via `python-dotenv`. `.env.example` committed as safe template.
 - [x] **Obsidian Ecosystem Vault Configurations**: Safely bootstrapped the `.obsidian/` application settings:
   - Added constraints to pull all attachments strictly to `raw/assets/`.
   - Registered and downloaded core `community-plugins.json` targets (`dataview`, `marp`, and `obsidian-git`).
 - [x] **Python Structural Handlers**: Built the base CLI orchestration utilities tracking cleanly back to `wiki/log.md` with explicit UTC ISO 8601 timestamps:
-  - `tools/common.py`: Universal library for unified YAML / Markdown frontmatter manipulation and logging mechanisms.
-  - `tools/lint.py`: Booted a metadata syntax compliance scanner ensuring markdown pages conform perfectly.
+  - `tools/common.py`: Universal library for YAML/Markdown frontmatter, logging, and `call_local_model()` using `.env` config.
+  - `tools/lint.py`: Lightweight (field check) and deep (LLM-assisted contradiction detection via `--deep` flag).
   - `tools/index.py`: Parses the repository and compiles `wiki/index.md` catalogs safely.
-- [x] **Pipeline Executables (Mocks configured)**: Set up parameter schemas for `ingest.py`, `normalize.py`, `extract.py`, `integrate.py`, and `query.py`.
-- [x] **E2E Validation Test Runner**: Drafted and validated `test_e2e.py` demonstrating sequential, clean integration tracking safely to `.md`.
+- [x] **Pipeline Executables (Live)**: `ingest.py`, `normalize.py`, `extract.py` (LLM), `integrate.py` (LLM merge+conflict), `query.py` (BM25).
+- [x] **E2E Validation Test Runner**: Drafted and validated `test_e2e.py` — fully passes end-to-end.
 
 ## 🟡 Phase 2: Core System Expansion (What needs to be done)
 - [x] **LLM Orchestration Layer Integration**: Upgrade `extract.py` & `integrate.py` from their static json mocks to invoke real local LLM APIs via `subprocess` (e.g. `llama.cpp` / `ollama`) or litellm.
