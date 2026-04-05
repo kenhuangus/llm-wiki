@@ -15,6 +15,9 @@ from query import query_wiki
 from ingest import ingest_source
 from common import WIKI_DIR, RAW_DIR
 
+# Define WIKI_ROOT for git operations
+WIKI_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 app = FastAPI(title="LLM Wiki API")
 
 # Enable CORS for the Vite UI
@@ -132,17 +135,26 @@ def get_all_articles():
 
 @app.get("/api/article/{full_path:path}")
 def get_article(full_path: str):
-    # Security check: ensure the path is within WIKI_DIR
-    resolved_path = os.path.normpath(os.path.join(WIKI_DIR, full_path))
-    if not resolved_path.startswith(os.path.abspath(WIKI_DIR)):
+    target = os.path.normpath(os.path.join(WIKI_DIR, full_path))
+    if not target.startswith(os.path.abspath(WIKI_DIR)):
         return {"error": "Unauthorized path access attempt."}
-        
-    try:
-        with open(resolved_path, "r", encoding="utf-8") as f:
-            content = f.read()
-        return {"content": content, "path": full_path}
-    except Exception as e:
-        return {"error": str(e)}
+    if not os.path.exists(target):
+        return {"error": "Article not found"}
+    with open(target, 'r', encoding='utf-8') as f:
+        content = f.read()
+    return {"content": content, "path": full_path}
+
+@app.post("/api/article/{full_path:path}")
+async def save_article(full_path: str, body: dict):
+    target = os.path.normpath(os.path.join(WIKI_DIR, full_path))
+    if not target.startswith(os.path.abspath(WIKI_DIR)):
+        return {"error": "Unauthorized path access attempt."}
+    content = body.get("content", "")
+    if not os.path.exists(os.path.dirname(target)):
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+    with open(target, 'w', encoding='utf-8') as f:
+        f.write(content)
+    return {"status": "success"}
 
 @app.get("/api/logs")
 def get_logs():
@@ -179,6 +191,72 @@ def get_backlinks(full_path: str):
                     backlinks.append({"title": target_name, "path": rel_path})
         except: pass
     return {"backlinks": backlinks}
+
+@app.get("/api/history/{full_path:path}/diff/{commit_hash}")
+def get_commit_diff(full_path: str, commit_hash: str):
+    """Get file content at a specific commit."""
+    # Normalize the path and prepend 'wiki/' since API paths don't include it
+    full_path_normalized = full_path.replace('\\', '/')
+    git_path = f"wiki/{full_path_normalized}"
+    
+    try:
+        result = subprocess.run(
+            ["git", "show", f"{commit_hash}:{git_path}"],
+            capture_output=True,
+            text=True,
+            cwd=WIKI_ROOT,
+            timeout=10
+        )
+        
+        if result.returncode != 0:
+            return {"error": "Could not retrieve commit content", "stderr": result.stderr, "tried_path": git_path}
+        
+        return {"content": result.stdout, "hash": commit_hash}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/api/history/{full_path:path}")
+def get_history(full_path: str):
+    """Get git history for a wiki file."""
+    target = os.path.normpath(os.path.join(WIKI_DIR, full_path))
+    if not target.startswith(os.path.abspath(WIKI_DIR)):
+        return {"error": "Unauthorized path access attempt."}
+    if not os.path.exists(target):
+        return {"error": "File not found"}
+    
+    try:
+        # Get git log for this file - use path relative to repo root
+        git_path = f"wiki/{full_path.replace(chr(92), '/')}"  # chr(92) is backslash
+        result = subprocess.run(
+            ["git", "log", "--pretty=format:%H|%an|%ae|%ad|%s", "--date=iso", "--", git_path],
+            capture_output=True,
+            text=True,
+            cwd=WIKI_ROOT,
+            timeout=10
+        )
+        
+        if result.returncode != 0:
+            return {"history": [], "error": "Git history not available"}
+        
+        history = []
+        for line in result.stdout.strip().split('\n'):
+            if not line:
+                continue
+            parts = line.split('|', 4)
+            if len(parts) == 5:
+                history.append({
+                    "hash": parts[0],
+                    "author": parts[1],
+                    "email": parts[2],
+                    "date": parts[3],
+                    "message": parts[4]
+                })
+        
+        return {"history": history, "path": full_path}
+    except subprocess.TimeoutExpired:
+        return {"history": [], "error": "Git command timed out"}
+    except Exception as e:
+        return {"history": [], "error": str(e)}
 
 @app.get("/api/stats")
 def get_stats():

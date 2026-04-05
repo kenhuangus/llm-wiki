@@ -312,3 +312,113 @@
 ## [2026-04-05T19:59:49Z] extract | llm extraction | Extracted from f8083454.md
 ## [2026-04-05T20:00:04Z] extract | llm extraction | Extracted from af95020b.md
 ## [2026-04-05T20:00:16Z] extract | llm extraction | Extracted from 8218a40c.md
+## [2026-04-05T20:02:35Z] extract_error | llm parsing failed | 90e95b43.md: Expecting value: line 1 column 1 (char 0)
+## [2026-04-05T20:04:53Z] extract_error | llm parsing failed | 1cabd242.md: Expecting value: line 1 column 1 (char 0)
+## [2026-04-05T20:05:27Z] extract | llm extraction | Extracted from 51d57484.md
+## [2026-04-05T20:06:00Z] extract | llm extraction | Extracted from 96d9981e.md
+## [2026-04-05T20:06:42Z] extract | llm extraction | Extracted from a32a5b62.md
+## [2026-04-05T20:07:17Z] extract | llm extraction | Extracted from f2f8fbf8.md
+## [2026-04-05T20:07:54Z] extract | llm extraction | Extracted from f488f8ea.md
+## [2026-04-05T20:08:09Z] extract | llm extraction | Extracted from 8218a40c.md
+## [2026-04-05T20:08:31Z] extract | llm extraction | Extracted from 06984966.md
+## [2026-04-05T22:21:59Z] monitor | arxiv_ingest | Fetched 2604.02330v1: ActionParty: Multi-Subject Action Binding in Generative Vide
+## [2026-04-05T22:22:00Z] monitor | arxiv_ingest | Fetched 2604.02327v1: Steerable Visual Representations
+## [2026-04-05T22:22:01Z] monitor | arxiv_ingest | Fetched 2604.02324v1: Grounded Token Initialization for New Vocabulary in LMs for 
+## [2026-04-05T22:22:01Z] monitor | arxiv_ingest | Fetched 2604.02322v1: Batched Contextual Reinforcement: A Task-Scaling Law for Eff
+## [2026-04-05T22:22:02Z] monitor | arxiv_ingest | Fetched 2604.02318v1: Stop Wandering: Efficient Vision-Language Navigation via Met
+## [2026-04-05T22:22:02Z] monitor | arxiv | Successfully polled latest arXiv feeds.
+## [2026-04-05T22:22:15Z] monitor | github_ingest | Fetched 2026-04-05_langchain-ai_langchain_langchain-core==1.2.26.md
+## [2026-04-05T22:22:15Z] monitor | github_ingest | Fetched Advisory GHSA-qh6h-p6c9-ff54 for langchain-ai/langchain
+## [2026-04-05T22:22:15Z] monitor | github_ingest | Fetched Advisory GHSA-2g6r-c272-w58r for langchain-ai/langchain
+## [2026-04-05T22:22:15Z] monitor | github_ingest | Fetched Advisory GHSA-c67j-w6g6-q2cm for langchain-ai/langchain
+## [2026-04-05T22:22:15Z] monitor | github_ingest | Fetched Advisory GHSA-6qv9-48xg-fc7f for langchain-ai/langchain
+## [2026-04-05T22:22:15Z] monitor | github | Polled langchain-ai/langchain
+## [2026-04-05T22:22:16Z] monitor | github_ingest | Fetched 2026-04-05_openai_openai-python_v2.30.0.md
+## [2026-04-05T22:22:16Z] monitor | github | Polled openai/openai-python
+## [2026-04-05T22:22:16Z] monitor | github_ingest | Fetched 2026-04-05_anthropics_anthropic-sdk-python_v0.89.0.md
+## [2026-04-05T22:22:17Z] monitor | github_ingest | Fetched Advisory GHSA-q5f5-3gjm-7mfm for anthropics/anthropic-sdk-python
+## [2026-04-05T22:22:17Z] monitor | github_ingest | Fetched Advisory GHSA-w828-4qhx-vxx3 for anthropics/anthropic-sdk-python
+## [2026-04-05T22:22:17Z] monitor | github | Polled anthropics/anthropic-sdk-python
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___blog_trailofbits_com_2026_04_03_.md from The Trail of Bits Blog
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___blog_trailofbits_com_2026_04_01_.md from The Trail of Bits Blog
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___blog_trailofbits_com_2026_03_31_.md from The Trail of Bits Blog
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___blog_trailofbits_com_2026_03_25_.md from The Trail of Bits Blog
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___blog_trailofbits_com_2026_03_24_.md from The Trail of Bits Blog
+## [2026-04-05T22:22:17Z] monitor | github_ingest | Fetched 2026-04-05_microsoft_autogen_python-v0.7.5.md
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___thehackernews_com_2026_04_285_mi.md from The Hacker News
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___thehackernews_com_2026_04_36_mal.md from The Hacker News
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___thehackernews_com_2026_04_fortin.md from The Hacker News
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___thehackernews_com_2026_04_china_.md from The Hacker News
+## [2026-04-05T22:22:17Z] monitor | rss_ingest | Fetched 2026-04-05_https___thehackernews_com_2026_04_micros.md from The Hacker News
+## [2026-04-05T22:22:18Z] monitor | github | Polled microsoft/autogen
+## [2026-04-05T22:22:18Z] monitor | github_ingest | Fetched 2026-04-05_crewAIInc_crewAI_1.13.0.md
+## [2026-04-05T22:22:18Z] monitor | rss_ingest | Fetched 2026-04-05__node_24705.md from All CISA Advisories
+## [2026-04-05T22:22:18Z] monitor | rss_ingest | Fetched 2026-04-05__node_24706.md from All CISA Advisories
+## [2026-04-05T22:22:18Z] monitor | rss_ingest | Fetched 2026-04-05__node_24703.md from All CISA Advisories
+## [2026-04-05T22:22:18Z] monitor | rss_ingest | Fetched 2026-04-05__node_24707.md from All CISA Advisories
+## [2026-04-05T22:22:18Z] monitor | rss_ingest | Fetched 2026-04-05__node_24701.md from All CISA Advisories
+## [2026-04-05T22:22:18Z] monitor | github | Polled crewAIInc/crewAI
+## [2026-04-05T22:22:19Z] monitor | rss_ingest | Fetched 2026-04-05_https___web_nvd_nist_gov_view_vuln_detai.md from National Vulnerability Database
+## [2026-04-05T22:22:20Z] monitor | rss_ingest | Fetched 2026-04-05_https___web_nvd_nist_gov_view_vuln_detai.md from National Vulnerability Database
+## [2026-04-05T22:22:20Z] monitor | rss_ingest | Fetched 2026-04-05_https___web_nvd_nist_gov_view_vuln_detai.md from National Vulnerability Database
+## [2026-04-05T22:22:20Z] monitor | rss_ingest | Fetched 2026-04-05_https___web_nvd_nist_gov_view_vuln_detai.md from National Vulnerability Database
+## [2026-04-05T22:22:20Z] monitor | rss_ingest | Fetched 2026-04-05_https___web_nvd_nist_gov_view_vuln_detai.md from National Vulnerability Database
+## [2026-04-05T22:22:22Z] monitor | rss_ingest | Fetched 2026-04-05_https___openai_com_index_openai_acquires.md from OpenAI News
+## [2026-04-05T22:22:22Z] monitor | rss_ingest | Fetched 2026-04-05_https___openai_com_index_codex_flexible_.md from OpenAI News
+## [2026-04-05T22:22:22Z] monitor | rss_ingest | Fetched 2026-04-05_https___openai_com_index_gradient_labs.md from OpenAI News
+## [2026-04-05T22:22:23Z] monitor | rss_ingest | Fetched 2026-04-05_https___openai_com_index_accelerating_th.md from OpenAI News
+## [2026-04-05T22:22:23Z] monitor | rss_ingest | Fetched 2026-04-05_https___openai_com_index_helping_disaste.md from OpenAI News
+## [2026-04-05T22:22:25Z] monitor | rss_ingest | Fetched 2026-04-05_https___deepmind_google_blog_gemma_4_byt.md from Google DeepMind News
+## [2026-04-05T22:22:26Z] monitor | rss_ingest | Fetched 2026-04-05_https___deepmind_google_blog_gemini_3_1_.md from Google DeepMind News
+## [2026-04-05T22:22:26Z] monitor | rss_ingest | Fetched 2026-04-05_https___deepmind_google_blog_protecting_.md from Google DeepMind News
+## [2026-04-05T22:22:26Z] monitor | rss_ingest | Fetched 2026-04-05_https___deepmind_google_blog_lyria_3_pro.md from Google DeepMind News
+## [2026-04-05T22:22:26Z] monitor | rss_ingest | Fetched 2026-04-05_https___deepmind_google_blog_measuring_p.md from Google DeepMind News
+## [2026-04-05T22:22:27Z] monitor | rss_ingest | Fetched 2026-04-05_https___research_google_blog_evaluating_.md from The latest research from Google
+## [2026-04-05T22:22:27Z] monitor | rss_ingest | Fetched 2026-04-05_https___research_google_blog_building_be.md from The latest research from Google
+## [2026-04-05T22:22:27Z] monitor | rss_ingest | Fetched 2026-04-05_https___research_google_blog_safeguardin.md from The latest research from Google
+## [2026-04-05T22:22:28Z] monitor | rss_ingest | Fetched 2026-04-05_https___research_google_blog_vibe_coding.md from The latest research from Google
+## [2026-04-05T22:22:28Z] monitor | rss_ingest | Fetched 2026-04-05_https___research_google_blog_turboquant_.md from The latest research from Google
+## [2026-04-05T22:22:29Z] monitor | rss_ingest | Fetched 2026-04-05_https___huggingface_co_blog_gemma4.md from Hugging Face - Blog
+## [2026-04-05T22:22:29Z] monitor | rss_ingest | Fetched 2026-04-05_https___huggingface_co_blog_Hcompany_hol.md from Hugging Face - Blog
+## [2026-04-05T22:22:29Z] monitor | rss_ingest | Fetched 2026-04-05_https___huggingface_co_blog_tiiuae_falco.md from Hugging Face - Blog
+## [2026-04-05T22:22:29Z] monitor | rss_ingest | Fetched 2026-04-05_https___huggingface_co_blog_ibm_granite_.md from Hugging Face - Blog
+## [2026-04-05T22:22:30Z] monitor | rss_ingest | Fetched 2026-04-05_https___huggingface_co_blog_trl_v1.md from Hugging Face - Blog
+## [2026-04-05T22:22:33Z] monitor | rss | Polled 10 feeds — 40 new items.
+## [2026-04-05T22:23:32Z] monitor | cve_ingest | Fetched 2026-04-05_CVE-1999-0236.md (CVSS: 7.5)
+## [2026-04-05T22:23:32Z] normalize | ai-security | Normalized 2026-04-05_CVE-1999-0236.md -> 6b56fd7d.md
+## [2026-04-05T22:24:00Z] extract | llm extraction | Extracted from 6b56fd7d.md
+## [2026-04-05T22:24:01Z] integrate | merged knowledge | Updated C:\Users\kenhu\llm-wiki\wiki\security\cve\cve-1999-0236.md (Status: current)
+## [2026-04-05T22:24:01Z] index | rebuilt index.md | 5 pages indexed across 5 domains
+## [2026-04-05T22:24:01Z] monitor | cve_ingest | Fetched 2026-04-05_CVE-1999-0239.md (CVSS: 7.5)
+## [2026-04-05T22:24:01Z] normalize | ai-security | Normalized 2026-04-05_CVE-1999-0239.md -> 74fb53aa.md
+## [2026-04-05T22:24:23Z] extract | llm extraction | Extracted from 74fb53aa.md
+## [2026-04-05T22:24:23Z] integrate | merged knowledge | Updated C:\Users\kenhu\llm-wiki\wiki\security\cve\cve-1999-0239.md (Status: current)
+## [2026-04-05T22:24:23Z] index | rebuilt index.md | 6 pages indexed across 5 domains
+## [2026-04-05T22:24:24Z] monitor | cve_ingest | Fetched 2026-04-05_CVE-1999-1152.md (CVSS: 7.5)
+## [2026-04-05T22:24:24Z] normalize | ai-security | Normalized 2026-04-05_CVE-1999-1152.md -> 81b25aa5.md
+## [2026-04-05T22:24:48Z] extract | llm extraction | Extracted from 81b25aa5.md
+## [2026-04-05T22:24:48Z] integrate | merged knowledge | Updated C:\Users\kenhu\llm-wiki\wiki\security\cve\cve-1999-1152.md (Status: current)
+## [2026-04-05T22:24:48Z] index | rebuilt index.md | 7 pages indexed across 5 domains
+## [2026-04-05T22:24:48Z] monitor | cve_ingest | Fetched 2026-04-05_CVE-1999-1568.md (CVSS: 7.5)
+## [2026-04-05T22:24:49Z] normalize | ai-security | Normalized 2026-04-05_CVE-1999-1568.md -> 3090d382.md
+## [2026-04-05T22:25:10Z] extract | llm extraction | Extracted from 3090d382.md
+## [2026-04-05T22:25:10Z] integrate | merged knowledge | Updated C:\Users\kenhu\llm-wiki\wiki\security\cve\cve-1999-1568.md (Status: current)
+## [2026-04-05T22:25:11Z] index | rebuilt index.md | 8 pages indexed across 5 domains
+## [2026-04-05T22:25:11Z] monitor | cve_ingest | Fetched 2026-04-05_CVE-1999-1549.md (CVSS: 7.8)
+## [2026-04-05T22:25:11Z] normalize | ai-security | Normalized 2026-04-05_CVE-1999-1549.md -> 3778ae93.md
+## [2026-04-05T22:25:34Z] extract | llm extraction | Extracted from 3778ae93.md
+## [2026-04-05T22:25:35Z] integrate | merged knowledge | Updated C:\Users\kenhu\llm-wiki\wiki\security\cve\cve-1999-1549.md (Status: current)
+## [2026-04-05T22:25:35Z] index | rebuilt index.md | 9 pages indexed across 5 domains
+## [2026-04-05T22:25:35Z] monitor | cve | Successfully polled latest CVEs.
+## [2026-04-05T22:39:31Z] lint | lightweight | 0 missing fields, 0 broken links, 7 confidence warnings
+## [2026-04-05T22:39:59Z] lint | deep_lint | LLM output: []
+## [2026-04-05T22:46:42Z] index | rebuilt index.md | 9 pages indexed across 5 domains
+## [2026-04-05T22:47:32Z] newsletter_agent | generated | Week 14 pulse: 9 sources (5 CVE, 0 arXiv, 0 GitHub, 0 RSS)
+## [2026-04-05T22:47:32Z] index | rebuilt index.md | 9 pages indexed across 5 domains
+## [2026-04-05T23:18:31Z] monitor | arxiv | Successfully polled latest arXiv feeds.
+## [2026-04-05T23:18:35Z] monitor | github | Polled langchain-ai/langchain
+## [2026-04-05T23:18:36Z] monitor | github | Polled openai/openai-python
+## [2026-04-05T23:18:36Z] monitor | github | Polled anthropics/anthropic-sdk-python
+## [2026-04-05T23:18:37Z] monitor | github | Polled microsoft/autogen
+## [2026-04-05T23:18:38Z] monitor | github | Polled crewAIInc/crewAI
+## [2026-04-05T23:18:39Z] monitor | rss | Polled 10 feeds — 0 new items.

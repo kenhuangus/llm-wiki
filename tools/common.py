@@ -24,16 +24,68 @@ LLM_BACK_MODEL  = os.environ.get("LLM_BACKUP_MODEL", "gemma-4-e2b-it")
 LLM_BACK_KEY    = os.environ.get("LLM_BACKUP_API_KEY", "lm-studio")
 
 # ── Monitor config ────────────────────────────────────────────────────────────
-ARXIV_MAX_RESULTS = int(os.environ.get("ARXIV_MAX_RESULTS", "3"))
-ARXIV_CATEGORIES  = os.environ.get("ARXIV_CATEGORIES", "cs.AI,cs.CR,cs.RO,cs.LG").split(",")
-GITHUB_TOKEN      = os.environ.get("GITHUB_TOKEN", "")
-GITHUB_REPOS      = [r.strip() for r in os.environ.get("GITHUB_REPOS", "langchain-ai/langchain,openai/openai-python,anthropics/anthropic-sdk-python").split(",") if r.strip()]
-CVE_FEED_URL      = os.environ.get("CVE_FEED_URL", "https://services.nvd.nist.gov/rest/json/cves/2.0")
-CVE_MAX_RESULTS   = int(os.environ.get("CVE_MAX_RESULTS", "5"))
-NVD_API_KEY       = os.environ.get("NVD_API_KEY", "")
-RSS_FEEDS         = [r.strip() for r in os.environ.get("RSS_FEEDS", "").split(",") if r.strip()]
+ARXIV_MAX_RESULTS    = int(os.environ.get("ARXIV_MAX_RESULTS", "3"))
+ARXIV_CATEGORIES     = os.environ.get("ARXIV_CATEGORIES", "cs.AI,cs.CR,cs.RO,cs.LG").split(",")
+ARXIV_MIN_CITATIONS  = int(os.environ.get("ARXIV_MIN_CITATIONS", "0"))   # 0 = disabled
+ARXIV_KEYWORDS       = [k.strip().lower() for k in os.environ.get("ARXIV_KEYWORDS", "").split(",") if k.strip()]
+GITHUB_TOKEN         = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_REPOS         = [r.strip() for r in os.environ.get("GITHUB_REPOS", "langchain-ai/langchain,openai/openai-python,anthropics/anthropic-sdk-python").split(",") if r.strip()]
+CVE_FEED_URL         = os.environ.get("CVE_FEED_URL", "https://services.nvd.nist.gov/rest/json/cves/2.0")
+CVE_MAX_RESULTS      = int(os.environ.get("CVE_MAX_RESULTS", "5"))
+NVD_API_KEY          = os.environ.get("NVD_API_KEY", "")
+RSS_FEEDS            = [r.strip() for r in os.environ.get("RSS_FEEDS", "").split(",") if r.strip()]
+RSS_KEYWORDS         = [k.strip().lower() for k in os.environ.get("RSS_KEYWORDS", "").split(",") if k.strip()]
+S2_API_KEY           = os.environ.get("S2_API_KEY", "")
+
+# ── State DB path (SQLite for deduplication across all monitors) ──────────────
+STATE_DB_PATH = os.path.join(_REPO_ROOT, 'state.db')
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+def get_state_db():
+    """Return a sqlite3 connection to the shared state DB (auto-creates tables)."""
+    import sqlite3
+    conn = sqlite3.connect(STATE_DB_PATH)
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS ingested_ids "
+        "(source TEXT NOT NULL, item_id TEXT NOT NULL, ingested_at TEXT NOT NULL, "
+        "PRIMARY KEY (source, item_id))"
+    )
+    conn.commit()
+    return conn
+
+
+def is_already_ingested(source: str, item_id: str) -> bool:
+    """Return True if this (source, item_id) pair has been recorded."""
+    conn = get_state_db()
+    cur = conn.execute(
+        "SELECT 1 FROM ingested_ids WHERE source=? AND item_id=?", (source, item_id)
+    )
+    found = cur.fetchone() is not None
+    conn.close()
+    return found
+
+
+def mark_ingested(source: str, item_id: str):
+    """Record that (source, item_id) has been ingested."""
+    conn = get_state_db()
+    ts = datetime.now(timezone.utc).isoformat()
+    conn.execute(
+        "INSERT OR IGNORE INTO ingested_ids (source, item_id, ingested_at) VALUES (?,?,?)",
+        (source, item_id, ts)
+    )
+    conn.commit()
+    conn.close()
+
+
+def score_relevance(text: str, keywords: list) -> float:
+    """Simple keyword relevance score: fraction of keywords found in text."""
+    if not keywords:
+        return 1.0  # no filter configured → always pass
+    text_lower = text.lower()
+    hits = sum(1 for kw in keywords if kw in text_lower)
+    return hits / len(keywords)
+
 
 def write_log(action, description, details=""):
     log_file = os.path.join(WIKI_DIR, 'log.md')

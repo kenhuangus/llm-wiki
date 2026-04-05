@@ -33,10 +33,28 @@ This document records the exact state of the Agentic Local-First LLM Wiki projec
   - **Interactive Semantic Search**: Full-text semantic search with relevance scoring, mapping results back to the local wiki corpus.
   - **Batch Ingest Controls**: Single-click batch URL ingestion via high-performance FastAPI/Uvicorn backend.
   - **Real-time Status Monitoring**: Active monitoring of backend API and search engine availability.
-- [ ] **AI Weekly Newsletter Agent**: 
-  - NEW — autonomous agent that queries all `wiki/` items modified in the last 7 days.
-  - Generates a high-quality Markdown newsletter in `wiki/synthesis/newsletters/`.
-  - Integrates NVD, GitHub, and arXiv findings into a "Weekly Pulse" report.
+- [x] **AI Weekly Newsletter Agent**: 
+  - Autonomous agent in `tools/newsletter_agent.py` queries wiki pages modified in the last N days.
+  - Categorizes sources by type (CVE, arXiv, GitHub, RSS) for structured sections.
+  - Generates `wiki/synthesis/newsletters/YYYY-MM-DD_pulse.md` with frontmatter.
+  - Supports `--days N` flag. Re-indexes wiki after generation.
+
+## 🟢 Phase 2: Improvement Tasks (Completed)
+
+- [x] **SQLite deduplication state DB** (`state.db`): All monitors now use `is_already_ingested()` / `mark_ingested()` from `common.py` — survives file renames, shared across arXiv, CVE, GitHub, RSS.
+- [x] **arXiv keyword relevance pre-filter**: `ARXIV_KEYWORDS` in `.env` — scores title+abstract before saving. Zero-match entries are skipped.
+- [x] **arXiv citation count filter**: `ARXIV_MIN_CITATIONS` + `S2_API_KEY` in `.env` — queries Semantic Scholar API before saving.
+- [x] **CVE `lastModStartDate` state file** (`state_cve_last_run.txt`): Only fetches CVEs modified since last run.
+- [x] **CVE CVSS ≥ 7.0 immediate pipeline trigger**: Runs normalize → extract → integrate → index automatically.
+- [x] **CVE CVSS ≥ 9.0 human escalation**: Writes `CRITICAL_ALERT.md` at repo root + `[CRITICAL]` log tag.
+- [x] **GitHub ETag/Last-Modified state** (`state_github_etags.json`): Avoids re-fetching unchanged releases (304 Not Modified).
+- [x] **GitHub Dependabot alerts polling**: Polls `/repos/{owner}/{repo}/dependabot/alerts` per repo (requires `security_events` token scope).
+- [x] **RSS expanded feed list**: Added NIST, CISA, HuggingFace, Papers With Code, The Hacker News to defaults.
+- [x] **RSS full article scraping**: Uses `trafilatura` for summary-only feeds (graceful fallback if not installed).
+- [x] **RSS relevance scoring pre-filter**: `RSS_KEYWORDS` in `.env` — skips off-topic entries.
+- [x] **`index.py` coverage stats**: Now includes per-domain avg confidence, total page count, and "Pending Human Review" section.
+- [x] **`lint.py` conflict tag propagation**: Deep lint now writes `[CONFLICT]` tags back to affected pages and sets `status: conflict` in frontmatter.
+- [x] **Confidence propagation check**: Lightweight lint warns when unverified pages have confidence > 0.6.
 
 > 📋 **Sub-task detail:** See [task2.md](task2.md) for the full external knowledge source integration checklist, API keys needed, and cron scheduling plan.
 
