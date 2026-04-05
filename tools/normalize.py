@@ -5,9 +5,32 @@ from datetime import datetime, timezone
 
 def normalize_file(filepath, domain):
     filename = os.path.basename(filepath)
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
+    content = ""
     
+    # ── Binary PDF detection (pypdf) ──────────────────────────────────────────
+    if filepath.lower().endswith('.pdf'):
+        try:
+            print(f"PIPELINE: Detected PDF source. Extracting text from {filename}...")
+            from pypdf import PdfReader
+            reader = PdfReader(filepath)
+            for page in reader.pages:
+                content += page.extract_text() + "\n"
+        except Exception as e:
+            print(f"CRITICAL: Failed to extract PDF text: {e}")
+            return # Skip if can't read
+    else:
+        # Standard text file
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except: 
+            print(f"CRITICAL: Failed to read text file {filename}")
+            return
+
+    if not content.strip():
+        print(f"WARN: Empty content extracted from {filename}. Skipping.")
+        return
+
     file_id = get_hash(content)
     target_dir = os.path.join(RAW_DIR, 'normalized', domain)
     os.makedirs(target_dir, exist_ok=True)

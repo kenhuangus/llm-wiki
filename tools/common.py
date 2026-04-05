@@ -70,15 +70,15 @@ def serialize_frontmatter(metadata, body):
 
 def call_local_model(system_prompt, input_text):
     """
-    Attempts Ken-Mac (Main) then Localhost (Backup) for synthesis.
-    Correctly maps to OpenAI-compatible Chat Completions payload.
+    Attempts Ken-Mac (Main) with 3 retries, then Localhost (Backup) for synthesis.
     """
-    targets = [
-        (LLM_MAIN_URL, LLM_MAIN_MODEL, LLM_MAIN_KEY, "Ken-Mac (Main)"),
-        (LLM_BACK_URL, LLM_BACK_MODEL, LLM_BACK_KEY, "Local-PC (Backup)")
-    ]
+    # Define nodes
+    main_node = (LLM_MAIN_URL, LLM_MAIN_MODEL, LLM_MAIN_KEY, "Ken-Mac (Main)")
+    back_node = (LLM_BACK_URL, LLM_BACK_MODEL, LLM_BACK_KEY, "Local-PC (Backup)")
 
-    for url, model, key, label in targets:
+    # 1. ── Try MAIN NODE with 3 Retries ─────────────────────────────────────────
+    for attempt in range(1, 4):
+        url, model, key, label = main_node
         payload = {
             "model": model,
             "messages": [
@@ -93,23 +93,46 @@ def call_local_model(system_prompt, input_text):
         }
         
         try:
-            print(f"PIPELINE: Attempting synthesis via {label}...")
+            print(f"PIPELINE: Attempting synthesis via {label} (Attempt {attempt}/3)...")
             response = requests.post(url, headers=headers, json=payload, timeout=300)
             data = response.json()
             
-            # OpenAI / LM-Studio response parsing
             if "choices" in data and len(data["choices"]) > 0:
                 content = data["choices"][0]["message"].get("content", "")
                 if content: 
                    print(f"PIPELINE: {label} SUCCESS.")
                    return content
             
-            # fallback case if response is empty
-            print(f"[WARN] {label} returned empty choices. Trying next node.")
+            error_msg = data.get('error', 'Unknown Error')
+            print(f"[FAIL] {label} Attempt {attempt} failed: {error_msg}")
             
         except Exception as e:
-            print(f"[FAIL] {label} unreachable: {e}")
-            continue # Try next target
+            print(f"[FAIL] {label} Attempt {attempt} unreachable: {e}")
+        
+        if attempt < 3:
+            import time
+            time.sleep(2) # Backoff before retry
 
-    print("ERROR: All LLM nodes failed.")
+    # 2. ── FALLBACK TO BACKUP NODE ──────────────────────────────────────────────
+    url, model, key, label = back_node
+    print(f"PIPELINE: Critical fallback initiated to {label}...")
+    try:
+        payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": input_text}
+            ],
+            "temperature": 0.7
+        }
+        response = requests.post(url, headers={"Content-Type":"application/json","Authorization":f"Bearer {key}"}, json=payload, timeout=120)
+        data = response.json()
+        if "choices" in data and len(data["choices"]) > 0:
+            content = data["choices"][0]["message"].get("content", "")
+            if content: 
+                print(f"PIPELINE: {label} (Fallback) SUCCESS.")
+                return content
+    except Exception as e:
+        print(f"CRITICAL: All LLM nodes failed including backup: {e}")
+
     return ""

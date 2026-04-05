@@ -34,15 +34,29 @@ def main():
     for mon in monitors:
         run_command(["python", f"tools/{mon}_monitor.py"])
 
-    # 2. Find all un-normalized files in raw/auto_ingest/
-    print("\nSTEP 2: Normalizing freshly ingested raw documents...")
-    raw_files = glob.glob(os.path.join(RAW_DIR, 'auto_ingest', '**', '*.*'), recursive=True)
-    # Exclude directories
+    # 2. Find all un-normalized files in raw/auto_ingest/ and raw/manual/
+    print("\nSTEP 2: Normalizing freshly ingested raw documents (Auto + Manual)...")
+    
+    # Discovery in both paths
+    search_dirs = [os.path.join(RAW_DIR, 'auto_ingest'), os.path.join(RAW_DIR, 'manual')]
+    raw_files = []
+    
+    for s_dir in search_dirs:
+        if os.path.exists(s_dir):
+           found = glob.glob(os.path.join(s_dir, '**', '*.*'), recursive=True)
+           print(f"DEBUG: Found {len(found)} candidate files in {s_dir}")
+           raw_files.extend(found)
+
+    # Filter to only actual files
     raw_files = [f for f in raw_files if os.path.isfile(f)]
     
     for rf in raw_files:
-        # Determine domain from parent directory
+        # Determine domain from parent directory or default to 'manual'
         domain = os.path.basename(os.path.dirname(rf))
+        if domain in ['auto_ingest', 'manual']: 
+           domain = 'general' # If directly in the root of search dir
+
+        print(f"PIPELINE: Normalizing {os.path.basename(rf)} [Domain: {domain}]")
         run_command(["python", "tools/normalize.py", rf, domain])
 
     # 3. Process all normalized files that haven't been extracted yet

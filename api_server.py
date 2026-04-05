@@ -161,6 +161,25 @@ async def upload_file(file: UploadFile = File(...)):
         f.write(await file.read())
     return {"status": f"Uploaded {file.filename} to raw/manual for processing."}
 
+@app.get("/api/backlinks/{full_path:path}")
+def get_backlinks(full_path: str):
+    # Search for [[path]] or [[title]] in all other files
+    target_name = os.path.basename(full_path).replace('.md', '')
+    backlinks = []
+    
+    all_files = glob.glob(os.path.join(WIKI_DIR, '**', '*.md'), recursive=True)
+    for f in all_files:
+        if os.path.normpath(f) == os.path.normpath(os.path.join(WIKI_DIR, full_path)):
+            continue
+        try:
+            with open(f, 'r', encoding='utf-8') as content:
+                text = content.read()
+                if f"[[{target_name}]]" in text or f"[[{full_path}]]" in text:
+                    rel_path = os.path.relpath(f, WIKI_DIR)
+                    backlinks.append({"title": target_name, "path": rel_path})
+        except: pass
+    return {"backlinks": backlinks}
+
 @app.get("/api/stats")
 def get_stats():
     pages = glob.glob(os.path.join(WIKI_DIR, '**', '*.md'), recursive=True)
