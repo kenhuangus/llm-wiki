@@ -58,9 +58,78 @@ This document records the exact state of the Agentic Local-First LLM Wiki projec
 
 > 📋 **Sub-task detail:** See [task2.md](task2.md) for the full external knowledge source integration checklist, API keys needed, and cron scheduling plan.
 
-## 🟣 Phase 3: Future Enhancements (Roadmap)
-- [ ] **Model Context Protocol (MCP)**: Wrap the repository querying operations dynamically exposing the wiki context internally to agents as a registered tool server.
-- [ ] **Automated Draft Engine / Publication Bridge**: Bind slide-deck compilation via `marp` explicitly producing reports, papers, or threat design documents cleanly from `/synthesis/`.
-- [ ] **Literature Manager Webhook Sync**: Add Zotero/Readbase hooks dynamically ingesting PDF payloads safely. 
-- [ ] **Autonomous Team Spaced Namespacing**: Support multiple independent local coding agents safely sharing wiki edits concurrently with Git conflict handling schemas.
-- [ ] **Federated Knowledge Sub-repositories**: Integrate RDF/OWL formal topologies expanding the data-lake into organizational interoperability.
+## 🟣 Phase 3: Autonomous Research & Recursive Self-Improvement (Design Complete)
+
+**Status:** Design phase complete — see `PHASE3_AUTONOMOUS_RESEARCH_PLAN.md` for full specification
+
+**Inspiration:** karpathy/autoresearch (March 2026) — AI agents running autonomous experiments with ratchet-based quality improvement
+
+### Core Components (6-Week Implementation)
+
+#### 3.1 Autonomous Orchestration Daemon (`tools/daemon.py`)
+- [ ] Continuous loop: ingest → normalize → extract → integrate → lint → index
+- [ ] Priority queue with CVE fast-track (CVSS ≥ 7.0)
+- [ ] Resource management: LLM rate limits, GPU availability, graceful degradation
+- [ ] Human escalation: critical conflicts (CVSS ≥ 9.0, verified page contradictions)
+- [ ] Target: 24/7 operation, 100+ sources/day, <1% failure rate
+
+#### 3.2 Prompt Optimization System (Meta-Learning)
+- [ ] Externalize prompts to `tools/prompts.py` (agent-modifiable)
+- [ ] Implement `tools/prompt_optimizer.py` with autoresearch-style ratchet
+- [ ] Evaluation test set: 50 curated sources (fixed for fair comparison)
+- [ ] Git-based versioning: keep improvements, revert failures
+- [ ] Target: +10% extraction confidence after 100 optimization cycles
+
+#### 3.3 Research Agenda System
+- [ ] Create `research_agenda.md` (human-authored, agent-read)
+- [ ] Define priorities: threat taxonomy, CVE coverage, model tracking
+- [ ] Implement `tools/research_agent.py` for autonomous hypothesis generation
+- [ ] Knowledge gap detection: domains <50 pages, avg confidence <0.7
+- [ ] Target: 5+ valid hypotheses/day, 60% lead to measurable improvement
+
+#### 3.4 Quality Feedback Loop
+- [ ] Implement `tools/retrospective_validator.py`
+- [ ] Weekly validation: check if old claims hold up against new sources
+- [ ] Contradiction detection: flag conflicts introduced by new evidence
+- [ ] Confidence adjustment: increase for reinforced claims, decrease for contradicted
+- [ ] Target: 90% contradiction detection rate, <5% error rate for verified claims
+
+#### 3.5 Experiment Tracking System
+- [ ] Create `wiki/experiments.md` (append-only log)
+- [ ] Implement `tools/metrics_collector.py` with SQLite backend (`metrics.db`)
+- [ ] Track: extraction quality, integration outcomes, hypothesis results
+- [ ] Time-series analysis: measure system improvement over time
+- [ ] Target: 200+ optimization cycles logged in 90 days
+
+### Success Metrics (90-Day Targets)
+| Metric | Phase 2 Baseline | Phase 3 Target |
+|--------|------------------|----------------|
+| Wiki pages | 150 | 500+ |
+| Avg extraction confidence | 0.72 | 0.85+ |
+| Integration conflict rate | 12% | <5% |
+| Lint pass rate | 88% | ≥95% |
+| Human interventions/week | 15 | <3 |
+| Novel hypotheses tested | 0 | 50+ |
+| Research outputs supported | 0 | 1+ paper/framework |
+
+### Three-File Architecture (Autoresearch Pattern)
+| File | Owner | Purpose |
+|------|-------|---------|
+| `AGENTS.md` + quality metrics | Immutable (neither human nor agent modifies during runs) | Evaluation criteria |
+| `prompts.py` | Agent sandbox (modifiable) | Extraction/integration prompts |
+| `research_agenda.md` | Human direction | Research priorities, constraints, success criteria |
+
+### Implementation Roadmap
+- **Week 1:** Foundation (externalize prompts, create agenda, metrics DB, test set)
+- **Week 2:** Autonomous orchestration (daemon, priority queue, 24h test run)
+- **Week 3:** Meta-learning (prompt optimizer, git versioning, 100-cycle overnight run)
+- **Week 4:** Autonomous research (hypothesis generation, gap detection, 7-day test)
+- **Week 5:** Quality feedback (retrospective validator, contradiction detection, weekly cycle)
+- **Week 6:** Integration & testing (unified daemon, monitoring dashboard, 30-day trial)
+
+### Future Enhancements (Post-Phase 3)
+- [ ] **Model Context Protocol (MCP)**: Expose wiki as queryable tool server for other agents
+- [ ] **Automated Draft Engine**: Generate papers, threat models, presentations from synthesis pages
+- [ ] **Literature Manager Sync**: Zotero/Readwise integration for existing library import
+- [ ] **Multi-Agent Collaboration**: Shared team wiki with per-agent write namespaces
+- [ ] **Federated Knowledge**: RDF/OWL integration for cross-org knowledge sharing
