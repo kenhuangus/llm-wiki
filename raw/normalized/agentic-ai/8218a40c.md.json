@@ -1,0 +1,15 @@
+{
+  "entities": [
+    {
+      "name": "raw_test_doc",
+      "type": "document"
+    }
+  ],
+  "claims": [
+    {
+      "text": "intelligence",
+      "confidence": 0.5
+    }
+  ],
+  "source_id": "8218a40c"
+}

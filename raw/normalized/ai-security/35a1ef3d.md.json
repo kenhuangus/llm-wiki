@@ -1,0 +1,15 @@
+{
+  "source_id": "35a1ef3d",
+  "entities": [
+    {
+      "name": "MockEntity",
+      "type": "model"
+    }
+  ],
+  "claims": [
+    {
+      "text": "Mock claim about the entity.",
+      "confidence": 0.8
+    }
+  ]
+}
