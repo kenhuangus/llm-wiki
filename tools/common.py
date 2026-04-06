@@ -23,6 +23,11 @@ LLM_BACK_URL    = os.environ.get("LLM_BACKUP_URL",  "http://localhost:1234/v1/ch
 LLM_BACK_MODEL  = os.environ.get("LLM_BACKUP_MODEL", "gemma-4-e2b-it")
 LLM_BACK_KEY    = os.environ.get("LLM_BACKUP_API_KEY", "lm-studio")
 
+# OpenRouter fallback (for context size issues)
+OPENROUTER_URL   = os.environ.get("OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions")
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
+OPENROUTER_KEY   = os.environ.get("OPENROUTER_API_KEY", "")
+
 # ── Monitor config ────────────────────────────────────────────────────────────
 ARXIV_MAX_RESULTS    = int(os.environ.get("ARXIV_MAX_RESULTS", "3"))
 ARXIV_CATEGORIES     = os.environ.get("ARXIV_CATEGORIES", "cs.AI,cs.CR,cs.RO,cs.LG").split(",")
@@ -122,14 +127,16 @@ def serialize_frontmatter(metadata, body):
 
 def call_local_model(system_prompt, input_text):
     """
-    Attempts Ken-Mac (Main) with 3 retries, then Localhost (Backup) for synthesis.
+    Attempts Ken-Mac (Main) with 4 retries, then OpenRouter (Cloud) for synthesis.
+    OpenRouter is used when local models fail due to context size limits.
     """
     # Define nodes
     main_node = (LLM_MAIN_URL, LLM_MAIN_MODEL, LLM_MAIN_KEY, "Ken-Mac (Main)")
-    back_node = (LLM_BACK_URL, LLM_BACK_MODEL, LLM_BACK_KEY, "Local-PC (Backup)")
+    cloud_node = (OPENROUTER_URL, OPENROUTER_MODEL, OPENROUTER_KEY, "OpenRouter (Cloud)")
 
-    # 1. ── Try MAIN NODE with 3 Retries ─────────────────────────────────────────
-    for attempt in range(1, 4):
+    # 1. ── Try MAIN NODE with 4 Retries ─────────────────────────────────────────
+    context_size_error = False
+    for attempt in range(1, 5):  # Changed to 4 attempts
         url, model, key, label = main_node
         payload = {
             "model": model,
@@ -145,7 +152,7 @@ def call_local_model(system_prompt, input_text):
         }
         
         try:
-            print(f"PIPELINE: Attempting synthesis via {label} (Attempt {attempt}/3)...")
+            print(f"PIPELINE: Attempting synthesis via {label} (Attempt {attempt}/4)...")
             response = requests.post(url, headers=headers, json=payload, timeout=300)
             data = response.json()
             
@@ -155,19 +162,40 @@ def call_local_model(system_prompt, input_text):
                    print(f"PIPELINE: {label} SUCCESS.")
                    return content
             
-            error_msg = data.get('error', 'Unknown Error')
-            print(f"[FAIL] {label} Attempt {attempt} failed: {error_msg}")
+            error_msg = data.get('error', {})
+            if isinstance(error_msg, dict):
+                error_text = error_msg.get('message', str(error_msg))
+            else:
+                error_text = str(error_msg)
+            
+            # Check for context size errors
+            if 'context' in error_text.lower() or 'size' in error_text.lower() or 'exceeded' in error_text.lower():
+                context_size_error = True
+                print(f"[FAIL] {label} Attempt {attempt} failed: Context size exceeded")
+                break  # Don't retry on context errors, go straight to cloud
+            
+            print(f"[FAIL] {label} Attempt {attempt} failed: {error_text}")
             
         except Exception as e:
             print(f"[FAIL] {label} Attempt {attempt} unreachable: {e}")
         
-        if attempt < 3:
+        if attempt < 4 and not context_size_error:  # Changed to 4
             import time
-            time.sleep(2) # Backoff before retry
+            time.sleep(2)  # Backoff before retry
 
-    # 2. ── FALLBACK TO BACKUP NODE ──────────────────────────────────────────────
-    url, model, key, label = back_node
-    print(f"PIPELINE: Critical fallback initiated to {label}...")
+    # 2. ── FALLBACK TO OPENROUTER (CLOUD) ───────────────────────────────────────
+    url, model, key, label = cloud_node
+    
+    # Check if OpenRouter key is configured
+    if not key:
+        print(f"CRITICAL: {label} not configured (OPENROUTER_API_KEY missing in .env)")
+        return ""
+    
+    if context_size_error:
+        print(f"PIPELINE: Context size exceeded, using {label} with larger context window...")
+    else:
+        print(f"PIPELINE: Critical fallback initiated to {label}...")
+    
     try:
         payload = {
             "model": model,
@@ -177,14 +205,26 @@ def call_local_model(system_prompt, input_text):
             ],
             "temperature": 0.7
         }
-        response = requests.post(url, headers={"Content-Type":"application/json","Authorization":f"Bearer {key}"}, json=payload, timeout=120)
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {key}",
+            "HTTP-Referer": "https://github.com/kenhuangus/llm-wiki",  # Required by OpenRouter
+            "X-Title": "LLM Wiki Autonomous System"  # Optional but recommended
+        }
+        
+        response = requests.post(url, headers=headers, json=payload, timeout=120)
         data = response.json()
+        
         if "choices" in data and len(data["choices"]) > 0:
             content = data["choices"][0]["message"].get("content", "")
             if content: 
-                print(f"PIPELINE: {label} (Fallback) SUCCESS.")
+                print(f"PIPELINE: {label} SUCCESS.")
                 return content
+        
+        error_msg = data.get('error', 'Unknown error')
+        print(f"CRITICAL: {label} failed: {error_msg}")
+        
     except Exception as e:
-        print(f"CRITICAL: All LLM nodes failed including backup: {e}")
+        print(f"CRITICAL: {label} failed with exception: {e}")
 
     return ""
