@@ -18,6 +18,7 @@ from daemon import WikiDaemon
 from prompt_optimizer import PromptOptimizer
 from research_agent import ResearchAgent
 from retrospective_validator import RetrospectiveValidator
+from paper_agent import PaperAgent
 from common import write_log
 
 
@@ -37,16 +38,19 @@ class UnifiedDaemon:
         self.prompt_optimizer = None  # Lazy init
         self.research_agent = None  # Lazy init
         self.validator = None  # Lazy init
+        self.paper_agent = None  # Lazy init
         
         # Scheduling
         self.last_optimization = 0
         self.last_research = 0
         self.last_validation = 0
+        self.last_paper_generation = 0
         
         # Intervals (in seconds)
         self.optimization_interval = 3600 * 4  # 4 hours
         self.research_interval = 3600 * 6  # 6 hours
         self.validation_interval = 3600 * 24 * 7  # 7 days
+        self.paper_interval = 3600 * 24 * 14  # 14 days (bi-weekly)
         
         self.running = True
         
@@ -61,6 +65,7 @@ class UnifiedDaemon:
         print(f"  - Every 4h: Prompt optimization")
         print(f"  - Every 6h: Research hypothesis generation")
         print(f"  - Every 7d: Retrospective validation")
+        print(f"  - Every 14d: Research paper generation")
         print()
         
         write_log('unified_daemon', 'started', 'All components initialized')
@@ -77,6 +82,8 @@ class UnifiedDaemon:
             self.research_agent.close()
         if self.validator:
             self.validator.close()
+        if self.paper_agent:
+            self.paper_agent.close()
         
         write_log('unified_daemon', 'shutdown', 'Graceful shutdown complete')
     
@@ -117,10 +124,16 @@ class UnifiedDaemon:
                     self.run_validation()
                     self.last_validation = current_time
                 
-                # 5. Status report
+                # 5. Research paper generation (every 14 days)
+                if current_time - self.last_paper_generation > self.paper_interval:
+                    print("\n📝 Generating research paper...")
+                    self.run_paper_generation()
+                    self.last_paper_generation = current_time
+                
+                # 6. Status report
                 self.print_status()
                 
-                # 6. Sleep
+                # 7. Sleep
                 if self.wiki_daemon.queue.empty():
                     print(f"\n💤 Sleeping for 5 minutes...")
                     time.sleep(300)  # 5 minutes
@@ -210,6 +223,24 @@ class UnifiedDaemon:
             print(f"   ❌ Validation error: {e}")
             write_log('unified_daemon_error', 'validation', str(e))
     
+    def run_paper_generation(self):
+        """Run research paper generation."""
+        try:
+            if not self.paper_agent:
+                self.paper_agent = PaperAgent()
+            
+            # Generate 1 paper with combined topics
+            paper = self.paper_agent.generate_paper(combine_topics=True)
+            
+            print(f"   ✓ Generated paper: {paper['title']}")
+            print(f"   ✓ Topics: {', '.join(paper['topics'])}")
+            print(f"   ✓ Word count: {paper['word_count']}")
+            print(f"   ✓ Saved to: {paper['filename']}")
+            
+        except Exception as e:
+            print(f"   ❌ Paper generation error: {e}")
+            write_log('unified_daemon_error', 'paper_generation', str(e))
+    
     def print_status(self):
         """Print system status."""
         print(f"\n📊 System Status:")
@@ -228,11 +259,13 @@ class UnifiedDaemon:
         next_opt = max(0, self.optimization_interval - (current_time - self.last_optimization))
         next_res = max(0, self.research_interval - (current_time - self.last_research))
         next_val = max(0, self.validation_interval - (current_time - self.last_validation))
+        next_paper = max(0, self.paper_interval - (current_time - self.last_paper_generation))
         
         print(f"\n⏰ Next scheduled tasks:")
         print(f"   Optimization: {next_opt/3600:.1f}h")
         print(f"   Research: {next_res/3600:.1f}h")
         print(f"   Validation: {next_val/3600/24:.1f}d")
+        print(f"   Paper generation: {next_paper/3600/24:.1f}d")
 
 
 def main():

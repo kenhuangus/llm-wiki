@@ -59,6 +59,28 @@ class WikiDaemon:
         self.running = False
         write_log('daemon', 'shutdown', f'Processed: {self.processed_count}, Failures: {self.failure_count}')
     
+    def detect_domain(self, source_path: str) -> str:
+        """Detect domain from source path."""
+        path_lower = source_path.lower()
+        
+        # Check path components
+        if 'arxiv' in path_lower:
+            return 'arxiv'
+        elif 'cve' in path_lower:
+            return 'cve'
+        elif 'github' in path_lower:
+            return 'github'
+        elif 'rss' in path_lower or 'blog' in path_lower or 'news' in path_lower:
+            return 'rss'
+        elif 'curated' in path_lower:
+            return 'curated'
+        elif 'manual' in path_lower:
+            return 'manual'
+        elif 'web' in path_lower:
+            return 'web'
+        else:
+            return 'general'
+    
     def run(self):
         """Main daemon loop."""
         while self.running:
@@ -237,17 +259,35 @@ class WikiDaemon:
             return source_path
         
         try:
+            # Detect domain from path
+            domain = self.detect_domain(source_path)
+            
             result = subprocess.run(
-                [sys.executable, 'tools/normalize.py', source_path],
+                [sys.executable, 'tools/normalize.py', source_path, domain],
                 capture_output=True,
                 text=True,
                 timeout=180
             )
             
             if result.returncode == 0:
-                # Find normalized file (should be in raw/normalized/)
-                # For now, assume it's the same filename in normalized/
-                return source_path  # Placeholder
+                # Parse output to find normalized file path
+                output = result.stdout.strip()
+                for line in output.split('\n'):
+                    if line.startswith('Normalized:'):
+                        normalized_path = line.split('Normalized:')[1].strip()
+                        return normalized_path
+                
+                # Fallback: look for the file in normalized directory
+                from common import get_hash
+                with open(source_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                file_id = get_hash(content)
+                normalized_path = os.path.join(RAW_DIR, 'normalized', domain, f"{file_id}.md")
+                if os.path.exists(normalized_path):
+                    return normalized_path
+                
+                print(f"⚠️  Normalized file not found")
+                return None
             else:
                 print(f"⚠️  Normalize error: {result.stderr[:100]}")
                 return None
