@@ -213,37 +213,37 @@ class MetricsCollector:
     
     def get_extraction_trend(self, days: int = 30) -> List[tuple]:
         """Get time series for extraction confidence."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(f"""
             SELECT date(timestamp) as date, AVG(avg_confidence) as avg_conf
             FROM extractions
-            WHERE timestamp > datetime('now', '-? days')
+            WHERE timestamp > datetime('now', '-{days} days')
             AND json_valid = 1
             GROUP BY date(timestamp)
             ORDER BY date
-        """, (days,))
+        """)
         return cursor.fetchall()
     
     def get_integration_conflict_rate(self, days: int = 30) -> List[tuple]:
         """Get time series for integration conflict rate."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(f"""
             SELECT date(timestamp) as date, 
                    SUM(CASE WHEN conflict_detected THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as conflict_rate
             FROM integrations
-            WHERE timestamp > datetime('now', '-? days')
+            WHERE timestamp > datetime('now', '-{days} days')
             GROUP BY date(timestamp)
             ORDER BY date
-        """, (days,))
+        """)
         return cursor.fetchall()
     
     def get_recent_failures(self, hours: int = 24) -> List[Dict]:
         """Get recent extraction failures for analysis."""
-        cursor = self.conn.execute("""
+        cursor = self.conn.execute(f"""
             SELECT source_id, timestamp, error_message, prompt_version
             FROM extractions
-            WHERE timestamp > datetime('now', '-? hours')
+            WHERE timestamp > datetime('now', '-{hours} hours')
             AND json_valid = 0
             ORDER BY timestamp DESC
-        """, (hours,))
+        """)
         
         failures = []
         for row in cursor.fetchall():
