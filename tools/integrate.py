@@ -3,6 +3,7 @@ import os
 import json
 from datetime import datetime
 from common import write_log, WIKI_DIR, serialize_frontmatter, parse_frontmatter, call_local_model
+from prompts import get_integration_prompt
 
 def integrate_knowledge(json_path, category, subcategory, title):
     with open(json_path, 'r', encoding='utf-8') as f:
@@ -33,7 +34,8 @@ def integrate_knowledge(json_path, category, subcategory, title):
         metadata['id'] = exist_meta.get('id', metadata['id'])
         metadata['source_count'] = exist_meta.get('source_count', 0) + 1
         
-        system_prompt = "You are a markdown editor. Merge the old claims and new claims. If there's a contradiction, keep both but output 'STATUS: CONFLICT' at the top."
+        # Use externalized prompt from prompts.py
+        system_prompt = get_integration_prompt()
         input_text = f"Old Claims:\n{exist_body}\n\nNew Claims:\n{new_claims_body}"
         
         merged_body_raw = call_local_model(system_prompt, input_text)

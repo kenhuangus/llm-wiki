@@ -2,6 +2,7 @@ import sys
 import os
 import json
 from common import write_log, parse_frontmatter, call_local_model
+from prompts import get_extraction_prompt
 
 def extract_knowledge(filepath):
     filename = os.path.basename(filepath)
@@ -10,7 +11,8 @@ def extract_knowledge(filepath):
     
     meta, body = parse_frontmatter(content)
     
-    system_prompt = "You are a data extractor. Output ONLY valid JSON containing 'entities' (list of {'name': str, 'type': str}) and 'claims' (list of {'text': str, 'confidence': float}). Do not output markdown code blocks."
+    # Use externalized prompt from prompts.py
+    system_prompt = get_extraction_prompt()
     
     input_text = f"Extract intelligence from this text:\n\n{body}"
     
