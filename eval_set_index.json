@@ -1,0 +1,315 @@
+{
+  "created": "2026-04-05",
+  "count": 44,
+  "purpose": "Fixed evaluation set for prompt optimization",
+  "files": [
+    {
+      "id": 1,
+      "domain": "agentic-ai",
+      "filename": "8218a40c.md",
+      "original_path": "agentic-ai\\8218a40c.md",
+      "eval_path": "eval_set\\agentic-ai\\8218a40c.md"
+    },
+    {
+      "id": 2,
+      "domain": "ai-security",
+      "filename": "3090d382.md",
+      "original_path": "ai-security\\3090d382.md",
+      "eval_path": "eval_set\\ai-security\\3090d382.md"
+    },
+    {
+      "id": 3,
+      "domain": "ai-security",
+      "filename": "35a1ef3d.md",
+      "original_path": "ai-security\\35a1ef3d.md",
+      "eval_path": "eval_set\\ai-security\\35a1ef3d.md"
+    },
+    {
+      "id": 4,
+      "domain": "ai-security",
+      "filename": "3778ae93.md",
+      "original_path": "ai-security\\3778ae93.md",
+      "eval_path": "eval_set\\ai-security\\3778ae93.md"
+    },
+    {
+      "id": 5,
+      "domain": "ai-security",
+      "filename": "6b56fd7d.md",
+      "original_path": "ai-security\\6b56fd7d.md",
+      "eval_path": "eval_set\\ai-security\\6b56fd7d.md"
+    },
+    {
+      "id": 6,
+      "domain": "ai-security",
+      "filename": "74fb53aa.md",
+      "original_path": "ai-security\\74fb53aa.md",
+      "eval_path": "eval_set\\ai-security\\74fb53aa.md"
+    },
+    {
+      "id": 7,
+      "domain": "arxiv",
+      "filename": "2552559d.md",
+      "original_path": "arxiv\\2552559d.md",
+      "eval_path": "eval_set\\arxiv\\2552559d.md"
+    },
+    {
+      "id": 8,
+      "domain": "arxiv",
+      "filename": "34bea970.md",
+      "original_path": "arxiv\\34bea970.md",
+      "eval_path": "eval_set\\arxiv\\34bea970.md"
+    },
+    {
+      "id": 9,
+      "domain": "arxiv",
+      "filename": "35a1ef3d.md",
+      "original_path": "arxiv\\35a1ef3d.md",
+      "eval_path": "eval_set\\arxiv\\35a1ef3d.md"
+    },
+    {
+      "id": 10,
+      "domain": "arxiv",
+      "filename": "384b65ef.md",
+      "original_path": "arxiv\\384b65ef.md",
+      "eval_path": "eval_set\\arxiv\\384b65ef.md"
+    },
+    {
+      "id": 11,
+      "domain": "arxiv",
+      "filename": "3f7e6949.md",
+      "original_path": "arxiv\\3f7e6949.md",
+      "eval_path": "eval_set\\arxiv\\3f7e6949.md"
+    },
+    {
+      "id": 12,
+      "domain": "curated",
+      "filename": "0e5efe40.md",
+      "original_path": "curated\\0e5efe40.md",
+      "eval_path": "eval_set\\curated\\0e5efe40.md"
+    },
+    {
+      "id": 13,
+      "domain": "curated",
+      "filename": "35ff4842.md",
+      "original_path": "curated\\35ff4842.md",
+      "eval_path": "eval_set\\curated\\35ff4842.md"
+    },
+    {
+      "id": 14,
+      "domain": "curated",
+      "filename": "45a8b90a.md",
+      "original_path": "curated\\45a8b90a.md",
+      "eval_path": "eval_set\\curated\\45a8b90a.md"
+    },
+    {
+      "id": 15,
+      "domain": "curated",
+      "filename": "47d82978.md",
+      "original_path": "curated\\47d82978.md",
+      "eval_path": "eval_set\\curated\\47d82978.md"
+    },
+    {
+      "id": 16,
+      "domain": "curated",
+      "filename": "4c3e672a.md",
+      "original_path": "curated\\4c3e672a.md",
+      "eval_path": "eval_set\\curated\\4c3e672a.md"
+    },
+    {
+      "id": 17,
+      "domain": "cve",
+      "filename": "af95020b.md",
+      "original_path": "cve\\af95020b.md",
+      "eval_path": "eval_set\\cve\\af95020b.md"
+    },
+    {
+      "id": 18,
+      "domain": "general",
+      "filename": "8218a40c.md",
+      "original_path": "general\\8218a40c.md",
+      "eval_path": "eval_set\\general\\8218a40c.md"
+    },
+    {
+      "id": 19,
+      "domain": "general",
+      "filename": "90e95b43.md",
+      "original_path": "general\\90e95b43.md",
+      "eval_path": "eval_set\\general\\90e95b43.md"
+    },
+    {
+      "id": 20,
+      "domain": "github",
+      "filename": "0fed0044.md",
+      "original_path": "github\\0fed0044.md",
+      "eval_path": "eval_set\\github\\0fed0044.md"
+    },
+    {
+      "id": 21,
+      "domain": "github",
+      "filename": "1cabd242.md",
+      "original_path": "github\\1cabd242.md",
+      "eval_path": "eval_set\\github\\1cabd242.md"
+    },
+    {
+      "id": 22,
+      "domain": "github",
+      "filename": "2c0fe98b.md",
+      "original_path": "github\\2c0fe98b.md",
+      "eval_path": "eval_set\\github\\2c0fe98b.md"
+    },
+    {
+      "id": 23,
+      "domain": "github",
+      "filename": "45c296aa.md",
+      "original_path": "github\\45c296aa.md",
+      "eval_path": "eval_set\\github\\45c296aa.md"
+    },
+    {
+      "id": 24,
+      "domain": "github",
+      "filename": "51d57484.md",
+      "original_path": "github\\51d57484.md",
+      "eval_path": "eval_set\\github\\51d57484.md"
+    },
+    {
+      "id": 25,
+      "domain": "manual",
+      "filename": "8218a40c.md",
+      "original_path": "manual\\8218a40c.md",
+      "eval_path": "eval_set\\manual\\8218a40c.md"
+    },
+    {
+      "id": 26,
+      "domain": "rss",
+      "filename": "06984966.md",
+      "original_path": "rss\\06984966.md",
+      "eval_path": "eval_set\\rss\\06984966.md"
+    },
+    {
+      "id": 27,
+      "domain": "rss",
+      "filename": "1cd8e6fd.md",
+      "original_path": "rss\\1cd8e6fd.md",
+      "eval_path": "eval_set\\rss\\1cd8e6fd.md"
+    },
+    {
+      "id": 28,
+      "domain": "rss",
+      "filename": "3a19af98.md",
+      "original_path": "rss\\3a19af98.md",
+      "eval_path": "eval_set\\rss\\3a19af98.md"
+    },
+    {
+      "id": 29,
+      "domain": "rss",
+      "filename": "3b9d73fc.md",
+      "original_path": "rss\\3b9d73fc.md",
+      "eval_path": "eval_set\\rss\\3b9d73fc.md"
+    },
+    {
+      "id": 30,
+      "domain": "rss",
+      "filename": "4ca7031a.md",
+      "original_path": "rss\\4ca7031a.md",
+      "eval_path": "eval_set\\rss\\4ca7031a.md"
+    },
+    {
+      "id": 31,
+      "domain": "web",
+      "filename": "8ffe41a4.md",
+      "original_path": "web\\8ffe41a4.md",
+      "eval_path": "eval_set\\web\\8ffe41a4.md"
+    },
+    {
+      "id": 32,
+      "domain": "curated",
+      "filename": "699592ef.md",
+      "original_path": "curated\\699592ef.md",
+      "eval_path": "eval_set\\curated\\699592ef.md"
+    },
+    {
+      "id": 33,
+      "domain": "curated",
+      "filename": "794485c8.md",
+      "original_path": "curated\\794485c8.md",
+      "eval_path": "eval_set\\curated\\794485c8.md"
+    },
+    {
+      "id": 34,
+      "domain": "curated",
+      "filename": "7d8b48fc.md",
+      "original_path": "curated\\7d8b48fc.md",
+      "eval_path": "eval_set\\curated\\7d8b48fc.md"
+    },
+    {
+      "id": 35,
+      "domain": "curated",
+      "filename": "85295982.md",
+      "original_path": "curated\\85295982.md",
+      "eval_path": "eval_set\\curated\\85295982.md"
+    },
+    {
+      "id": 36,
+      "domain": "curated",
+      "filename": "859b0f3b.md",
+      "original_path": "curated\\859b0f3b.md",
+      "eval_path": "eval_set\\curated\\859b0f3b.md"
+    },
+    {
+      "id": 37,
+      "domain": "curated",
+      "filename": "9f5a5485.md",
+      "original_path": "curated\\9f5a5485.md",
+      "eval_path": "eval_set\\curated\\9f5a5485.md"
+    },
+    {
+      "id": 38,
+      "domain": "curated",
+      "filename": "aa53c888.md",
+      "original_path": "curated\\aa53c888.md",
+      "eval_path": "eval_set\\curated\\aa53c888.md"
+    },
+    {
+      "id": 39,
+      "domain": "curated",
+      "filename": "b29bab13.md",
+      "original_path": "curated\\b29bab13.md",
+      "eval_path": "eval_set\\curated\\b29bab13.md"
+    },
+    {
+      "id": 40,
+      "domain": "curated",
+      "filename": "b8479db2.md",
+      "original_path": "curated\\b8479db2.md",
+      "eval_path": "eval_set\\curated\\b8479db2.md"
+    },
+    {
+      "id": 41,
+      "domain": "curated",
+      "filename": "c57de64b.md",
+      "original_path": "curated\\c57de64b.md",
+      "eval_path": "eval_set\\curated\\c57de64b.md"
+    },
+    {
+      "id": 42,
+      "domain": "curated",
+      "filename": "d1eeaaca.md",
+      "original_path": "curated\\d1eeaaca.md",
+      "eval_path": "eval_set\\curated\\d1eeaaca.md"
+    },
+    {
+      "id": 43,
+      "domain": "curated",
+      "filename": "fcba068d.md",
+      "original_path": "curated\\fcba068d.md",
+      "eval_path": "eval_set\\curated\\fcba068d.md"
+    },
+    {
+      "id": 44,
+      "domain": "curated",
+      "filename": "ff1f6fd0.md",
+      "original_path": "curated\\ff1f6fd0.md",
+      "eval_path": "eval_set\\curated\\ff1f6fd0.md"
+    }
+  ]
+}
