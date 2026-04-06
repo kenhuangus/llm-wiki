@@ -1,0 +1,28 @@
+{
+  "entities": [
+    {
+      "name": "CVE-1999-0239",
+      "type": "cve",
+      "confidence": 1.0
+    },
+    {
+      "name": "Netscape FastTrack Web server",
+      "type": "tool",
+      "confidence": 1.0
+    }
+  ],
+  "claims": [
+    {
+      "text": "CVE-1999-0239 has a CVSS v3.x Base Score of 7.5 (HIGH).",
+      "confidence": 1.0,
+      "evidence": "CVSS v3.x Base Score: 7.5 (HIGH)"
+    },
+    {
+      "text": "Netscape FastTrack Web server lists files when a lowercase 'get' command is used instead of an uppercase GET.",
+      "confidence": 1.0,
+      "evidence": "Netscape FastTrack Web server lists files when a lowercase 'get' command is used instead of an uppercase GET."
+    }
+  ],
+  "relationships": [],
+  "source_id": "74fb53aa"
+}

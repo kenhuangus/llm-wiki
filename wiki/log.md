@@ -422,3 +422,15 @@
 ## [2026-04-05T23:18:37Z] monitor | github | Polled microsoft/autogen
 ## [2026-04-05T23:18:38Z] monitor | github | Polled crewAIInc/crewAI
 ## [2026-04-05T23:18:39Z] monitor | rss | Polled 10 feeds — 0 new items.
+## [2026-04-06T00:03:55Z] extract | llm extraction | Extracted from 2026-04-05_raw_test_doc.md
+## [2026-04-06T00:07:45Z] daemon | started | WikiDaemon initialized
+## [2026-04-06T00:09:52Z] daemon | started | WikiDaemon initialized
+## [2026-04-06T00:17:43Z] extract | llm extraction | Extracted from 35a1ef3d.md
+## [2026-04-06T00:20:38Z] extract | llm extraction | Extracted from 74fb53aa.md
+## [2026-04-06T00:20:50Z] extract_error | llm parsing failed | 35a1ef3d.md: Expecting value: line 1 column 1 (char 0)
+## [2026-04-06T00:21:50Z] prompt_optimizer | experiment_1 | REVERTED: Increase extraction confidence through better evidence requirements
+## [2026-04-06T00:22:15Z] extract_error | llm parsing failed | 34bea970.md: Expecting value: line 1 column 1 (char 0)
+## [2026-04-06T00:22:15Z] research_agent | hypothesis_1 | FAILED: Expand coverage in security/attack-patterns (currently 0 pages, target 50)
+## [2026-04-06T00:24:16Z] prompt_optimizer | experiment_1 | REVERTED: Increase extraction confidence through better evidence requirements
+## [2026-04-06T00:25:26Z] research_agent | hypothesis_2 | SUCCESS: Expand coverage in security/cve (currently 5 pages, target 100)
+## [2026-04-06T00:26:58Z] research_agent | hypothesis_3 | SUCCESS: Expand coverage in security/attack-patterns (currently 0 pages, target 50)
