@@ -1,8 +1,79 @@
+# Environment and secrets
+.env
+.env.local
+
+# Logs
 /logs/*.log
 !/wiki/log.md
-.env
-tutorial.md
+
+# Raw data and sources
 raw/
-ui/node_modules/
-.venv/
+
+# Database files (contain state and metrics)
+*.db
+state.db
+metrics.db
+state_*.txt
+state_*.json
+
+# Generated papers (work in progress, may contain unpublished research)
+papers/
+papers/*.md
+
+# Work in progress documentation
+task.md
+task2.md
+temp_*.txt
+temp_*.md
+*_WIP.md
+*_DRAFT.md
+
+# Configuration and status files (may contain system-specific info)
+CONFIGURATION_*.md
+CURRENT_STATUS_*.md
+UPDATE_SUMMARY.md
+BUG_FIXES_*.md
+IMPLEMENTATION_STATUS.md
+IMPLEMENTATION_COMPLETE.md
+FINAL_SUMMARY.md
+PHASE*_PROGRESS.md
+PHASE*_SUMMARY.md
+
+# Test files
+test_*.py
+*_test.py
+
+# Tutorial and guides (work in progress)
+tutorial.md
+
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Node
+ui/node_modules/
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Pytest
+.pytest_cache/
+
+# Other
+.qodo/

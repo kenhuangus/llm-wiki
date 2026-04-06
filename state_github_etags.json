@@ -1,7 +1,0 @@
-{
-  "release:langchain-ai/langchain": "W/\"b82cc73dbb43078dda09600c53fd13ebe5d0b81a5fa1655f321dd6388544cfda\"",
-  "release:openai/openai-python": "W/\"e63cf87207c4f2c543a6cce7e535d78a88a88756a1a859b58336f7fb1c5902b8\"",
-  "release:anthropics/anthropic-sdk-python": "W/\"a185fc98fb498ffa763be101f7bbd45d95acb16dcd44deba987058093161290a\"",
-  "release:microsoft/autogen": "W/\"de3309e2b6e4eee9319d171c2b0c5ff516f775fdc3e7792b74e64b6ba8104a0f\"",
-  "release:crewAIInc/crewAI": "W/\"b38bfb9c23d33b9e0a16426a00392b0ab903d71a01679949af3df6e1be40b3f5\""
-}

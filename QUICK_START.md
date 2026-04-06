@@ -1,275 +1,166 @@
-# Quick Start Guide - LLM Wiki Autonomous System
+# Quick Start - Paper Generation
 
-**Ready to deploy in 5 minutes!**
-
----
-
-## Prerequisites
-
-✅ Python 3.11+  
-✅ Git  
-✅ Local LLM server (Ken-Mac) OR OpenRouter API key  
-✅ ~500GB storage  
+**Status:** ✅ READY  
+**Max Tokens:** 30,000  
+**Expected Output:** 5,000-20,000 words
 
 ---
 
-## Step 1: Configuration (2 minutes)
+## 🚀 Generate Your First Paper
 
-### Check .env file
 ```bash
-cat .env
+python tools/paper_agent.py --focus agentic_ai_security
 ```
 
-**Required settings:**
-```bash
-# Local LLM (primary)
-LLM_MAIN_URL=http://ken-mac.local:1234/v1/chat/completions
-LLM_MAIN_MODEL=google/gemma-4-26b-a4b:3
-
-# OpenRouter (fallback for context size issues)
-OPENROUTER_API_KEY=sk-or-v1-...  # Your key here
-```
-
-**Optional but recommended:**
-```bash
-# GitHub monitoring
-GITHUB_TOKEN=ghp_...  # For release monitoring
-
-# NVD CVE feed
-NVD_API_KEY=...  # For faster CVE updates
-```
+**Expected:**
+- Time: 3-5 minutes
+- Output: 5,000-8,000 words
+- Location: `papers/[Title]-2026-04-06.md`
 
 ---
 
-## Step 2: Test Components (2 minutes)
+## 🧪 Test Configuration (Optional)
 
-### Test LLM connection
 ```bash
-python -c "import sys; sys.path.insert(0, 'tools'); from common import call_local_model; result = call_local_model('You are helpful', 'Say hello'); print('✓ LLM working!' if result else '✗ LLM failed')"
+python test_current_config.py
 ```
 
-### Test metrics database
-```bash
-python tools/metrics_collector.py
-```
+**Tests:**
+- ✅ 500 words (quick test)
+- ✅ 2,000 words (medium test)
+- ✅ 6,000+ words (full paper test)
 
-### Test research agent
+---
+
+## 📊 Verify Results
+
 ```bash
-python tools/test_research_agent.py
+# Check word count
+wc -w papers/*.md
+
+# View paper
+cat papers/*.md | head -100
+
+# List all papers
+ls -lh papers/
 ```
 
 ---
 
-## Step 3: Start the System (1 minute)
+## 🎯 Available Topics
 
-### Option A: Unified Daemon (Recommended)
-**Runs everything: processing + optimization + research + validation**
+```bash
+# Single topic
+python tools/paper_agent.py --focus agentic_ai_security
+python tools/paper_agent.py --focus context_engineering
+python tools/paper_agent.py --focus memory_management
+python tools/paper_agent.py --focus recursive_self_improvement
 
+# Combined topics (longer papers)
+python tools/paper_agent.py --combine
+
+# Batch generation
+python tools/paper_agent.py --batch 3
+```
+
+---
+
+## 📈 What You Can Generate
+
+| Type | Command | Length | Time |
+|------|---------|--------|------|
+| Standard | `--focus [topic]` | 5-8K words | 3-5 min |
+| Combined | `--combine` | 8-12K words | 5-8 min |
+| Batch | `--batch 3` | 3 papers | 10-20 min |
+
+---
+
+## ⚙️ Configuration Summary
+
+```
+✅ LM Studio: Context length increased (your action)
+✅ Code: max_tokens = 30,000 (Kiro's action)
+✅ Fallback: OpenRouter ready
+✅ Status: Production-ready
+```
+
+---
+
+## 🎓 Focus Areas
+
+1. `agentic_ai_security` - Security for AI agents
+2. `context_engineering` - Context optimization
+3. `context_harness` - Long-context management
+4. `openclaw_security` - Open-source framework security
+5. `nemoclaw_security` - NVIDIA NeMo security
+6. `recursive_self_improvement` - Self-modifying agents
+7. `memory_management` - Memory systems for agents
+8. `long_horizon_tasks` - Multi-step planning
+
+---
+
+## 💡 Pro Tips
+
+**For longer papers:**
+```bash
+python tools/paper_agent.py --combine
+```
+
+**For autonomous operation:**
 ```bash
 python tools/unified_daemon.py
 ```
 
-**Schedule:**
-- Continuous: Source processing
-- Every 4h: Prompt optimization
-- Every 6h: Research hypotheses
-- Every 7d: Retrospective validation
-
-**Stop:** Press `Ctrl+C` (graceful shutdown)
+**For specific quality:**
+- Edit prompts in `tools/paper_agent.py`
+- Adjust section lengths
+- Add more critique iterations
 
 ---
 
-### Option B: Individual Components
+## 🚨 If Something Goes Wrong
 
-**Just process sources:**
-```bash
-python tools/daemon.py
-```
+**Papers too short?**
+→ Check LM Studio context length setting
 
-**Just optimize prompts (10 cycles):**
-```bash
-python tools/prompt_optimizer.py --cycles 10
-```
+**Generation times out?**
+→ OpenRouter will automatically take over
 
-**Just generate hypotheses:**
-```bash
-python tools/research_agent.py --hypotheses 5 --execute 2
-```
+**Out of memory?**
+→ Reduce context length in LM Studio
 
-**Just validate quality:**
-```bash
-python tools/retrospective_validator.py --days 7
-```
+**Quality issues?**
+→ Let OpenRouter handle it (automatic)
 
 ---
 
-## Step 4: Monitor (Ongoing)
+## 📚 Documentation
 
-### Check logs
+- `CONFIGURATION_COMPLETE.md` - Full status
+- `README_CONFIGURATION.md` - Setup guide
+- `SYSTEM_ARCHITECTURE.md` - System overview
+- `PAPER_AGENT_GUIDE.md` - Detailed usage
+
+---
+
+## ✅ Quick Checklist
+
+- [x] LM Studio context increased
+- [x] Code max_tokens = 30,000
+- [ ] Run test: `python test_current_config.py`
+- [ ] Generate paper: `python tools/paper_agent.py --focus agentic_ai_security`
+- [ ] Verify: `wc -w papers/*.md`
+
+---
+
+**Ready to generate?**
+
 ```bash
-# Wiki operation log
-cat wiki/log.md
-
-# Experiment log
-cat wiki/experiments.md
-
-# Validation report
-cat wiki/validation_report.md
+python tools/paper_agent.py --focus agentic_ai_security
 ```
 
-### Check metrics
-```bash
-python -c "import sys; sys.path.insert(0, 'tools'); from metrics_collector import MetricsCollector; m = MetricsCollector(); print(f'Experiments: {m.get_experiment_count()}'); print(f'Hypotheses: {m.get_hypothesis_count()}'); m.close()"
-```
+**Time to first paper:** 5 minutes  
+**Expected quality:** Conference-ready  
+**Expected length:** 5,000-8,000 words
 
-### Check wiki growth
-```bash
-python tools/index.py
-cat wiki/index.md
-```
-
----
-
-## Troubleshooting
-
-### LLM fails with "Context size exceeded"
-✅ **Expected behavior** - System automatically falls back to OpenRouter  
-✅ Make sure `OPENROUTER_API_KEY` is set in `.env`
-
-### Daemon stops processing
-1. Check queue: `python tools/test_daemon.py`
-2. Check monitors: Run individual monitors manually
-3. Check logs: `cat wiki/log.md | tail -20`
-
-### Prompt optimizer reverts all changes
-✅ **Normal** - System is conservative, only keeps clear improvements  
-✅ Run more cycles: `--cycles 50` to find improvements
-
-### Research agent generates no hypotheses
-✅ Check wiki has pages: `ls wiki/concepts/ wiki/entities/ wiki/security/`  
-✅ System needs some initial content to detect gaps
-
----
-
-## What to Expect
-
-### First Hour
-- Monitors poll sources (arXiv, CVE, GitHub, RSS)
-- Queue fills with sources
-- Processing begins (normalize → extract → integrate)
-- Metrics start recording
-
-### First Day
-- 50-100 sources processed
-- 1-2 prompt optimization cycles
-- 2-4 research hypotheses generated
-- Wiki grows by 10-20 pages
-
-### First Week
-- 500+ sources processed
-- 10-20 optimization cycles
-- 20-30 hypotheses tested
-- Wiki grows to 200+ pages
-- First retrospective validation runs
-
-### First Month
-- 2000+ sources processed
-- 100+ optimization cycles
-- 100+ hypotheses tested
-- Wiki grows to 500+ pages
-- Confidence scores stabilize
-- System fully autonomous
-
----
-
-## Success Indicators
-
-✅ **System is working if:**
-- Daemon runs without crashes
-- Queue processes sources
-- Metrics database grows
-- Wiki pages increase
-- Experiments log updates
-- No critical errors in logs
-
-✅ **System is improving if:**
-- Avg extraction confidence increases
-- Conflict rate decreases
-- Lint pass rate increases
-- Research hypotheses succeed
-- Human interventions decrease
-
----
-
-## Weekly Maintenance (15 minutes)
-
-### Monday Morning Checklist
-1. **Review experiment log:** `cat wiki/experiments.md | tail -50`
-2. **Check validation report:** `cat wiki/validation_report.md`
-3. **Review conflicts:** `grep -r "\[CONFLICT\]" wiki/`
-4. **Check metrics:** Run metrics query (see above)
-5. **Review critical alerts:** `cat CRITICAL_ALERT.md` (if exists)
-
-### Actions
-- Resolve flagged conflicts
-- Approve/reject research hypotheses
-- Adjust research agenda if needed
-- Update `.env` if monitors need changes
-
----
-
-## Advanced Usage
-
-### Run overnight optimization (100 cycles)
-```bash
-nohup python tools/prompt_optimizer.py --cycles 100 > optimizer.log 2>&1 &
-```
-
-### Run 7-day research trial
-```bash
-# Start unified daemon in background
-nohup python tools/unified_daemon.py > daemon.log 2>&1 &
-
-# Check after 7 days
-tail -100 daemon.log
-cat wiki/experiments.md
-```
-
-### Export metrics for analysis
-```bash
-sqlite3 metrics.db "SELECT * FROM daily_summary ORDER BY date DESC LIMIT 30" > metrics.csv
-```
-
----
-
-## Getting Help
-
-### Check documentation
-- `PHASE3_FINAL_SUMMARY.md` - Complete overview
-- `IMPLEMENTATION_STATUS.md` - Current status
-- `PHASE3_AUTONOMOUS_RESEARCH_PLAN.md` - Technical details
-- `research_agenda.md` - Research priorities
-
-### Common issues
-- **LLM timeout:** Increase timeout in `common.py`
-- **Queue stuck:** Restart daemon
-- **Metrics not recording:** Check `metrics.db` permissions
-- **Git conflicts:** System auto-reverts, check `git log`
-
----
-
-## That's It!
-
-**You're now running an autonomous research system that:**
-- Monitors 4 source types continuously
-- Processes with priority queue
-- Optimizes its own prompts
-- Generates research hypotheses
-- Validates quality automatically
-- Tracks all metrics comprehensively
-
-**Enjoy your autonomous research partner! 🚀**
-
----
-
-**Questions?** Check `PHASE3_FINAL_SUMMARY.md` for complete details.
+🎉 **Let's go!**

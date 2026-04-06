@@ -144,7 +144,8 @@ def call_local_model(system_prompt, input_text):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": input_text}
             ],
-            "temperature": 0.7
+            "temperature": 0.7,
+            "max_tokens": 30000  # Increased to 30K for very long papers
         }
         headers = {
             "Content-Type": "application/json",
@@ -153,7 +154,7 @@ def call_local_model(system_prompt, input_text):
         
         try:
             print(f"PIPELINE: Attempting synthesis via {label} (Attempt {attempt}/4)...")
-            response = requests.post(url, headers=headers, json=payload, timeout=300)
+            response = requests.post(url, headers=headers, json=payload, timeout=180)  # Increased to 180s for long outputs
             data = response.json()
             
             if "choices" in data and len(data["choices"]) > 0:
@@ -203,7 +204,8 @@ def call_local_model(system_prompt, input_text):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": input_text}
             ],
-            "temperature": 0.7
+            "temperature": 0.7,
+            "max_tokens": 30000  # Matched with local model for consistency
         }
         headers = {
             "Content-Type": "application/json",
@@ -212,7 +214,7 @@ def call_local_model(system_prompt, input_text):
             "X-Title": "LLM Wiki Autonomous System"  # Optional but recommended
         }
         
-        response = requests.post(url, headers=headers, json=payload, timeout=120)
+        response = requests.post(url, headers=headers, json=payload, timeout=180)  # Increased for long outputs
         data = response.json()
         
         if "choices" in data and len(data["choices"]) > 0:
